@@ -1,0 +1,7 @@
+streamlit
+pymongo
+bcrypt
+pytesseract
+Pillow
+captcha
+PyMuPDF
