@@ -4,3 +4,4 @@ pytesseract
 pymongo
 bcrypt
 captcha
+PyMuPDF
