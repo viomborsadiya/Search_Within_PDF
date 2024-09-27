@@ -1,7 +1,6 @@
 streamlit
+Pillow
+pytesseract
 pymongo
 bcrypt
-pytesseract
-Pillow
 captcha
-PyMuPDF
