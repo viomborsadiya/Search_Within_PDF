@@ -10,10 +10,16 @@ def preprocess_image(image_path):
     Preprocesses the image to improve OCR accuracy.
     """
     image = Image.open(image_path)
-    image = image.convert('L')
+
+    # Resize the image for better OCR performance
+    image = image.resize((image.width * 2, image.height * 2), Image.LANCZOS)  # Changed ANTIALIAS to LANCZOS
+    image = image.convert('L')  # Convert to grayscale
+
+    # Increase contrast and apply thresholding
     enhancer = ImageEnhance.Contrast(image)
-    image = enhancer.enhance(2)  # Increase contrast
-    image = image.point(lambda p: p > 128 and 255)
+    image = enhancer.enhance(1.5)  # Increase contrast
+    image = image.point(lambda p: p > 150 and 255)  # Apply binary threshold
+
     return image
 
 def extract_text_from_image(image_path):
@@ -21,5 +27,9 @@ def extract_text_from_image(image_path):
     Extracts text from an image using pytesseract.
     """
     image = preprocess_image(image_path)
-    text = pytesseract.image_to_string(image)
+
+    # Use Tesseract configuration to improve accuracy
+    custom_config = r'--oem 3 --psm 6'  # Default OCR Engine Mode and Page Segmentation Mode
+    text = pytesseract.image_to_string(image, config=custom_config)
+
     return text.strip()
